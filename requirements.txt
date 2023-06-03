@@ -1,1 +1,2 @@
--e .
+requests,
+coincurve==18.0.0
