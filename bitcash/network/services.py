@@ -10,10 +10,11 @@ from bitcash.network.APIs.FulcrumProtocolAPI import FulcrumProtocolAPI
 from bitcash.utils import time_cache
 
 # Dictionary of supported endpoint APIs
+# Disabled ChaingraphAPI and BitcoinDotComAPI as they are not working with other coins
 ENDPOINT_ENV_VARIABLES = {
-    "CHAINGRAPH": ChaingraphAPI,
+    # ~ "CHAINGRAPH": ChaingraphAPI,
     "FULCRUM": FulcrumProtocolAPI,
-    "BITCOINCOM": BitcoinDotComAPI,
+    # ~ "BITCOINCOM": BitcoinDotComAPI,
 }
 
 # Default API call total time timeout
