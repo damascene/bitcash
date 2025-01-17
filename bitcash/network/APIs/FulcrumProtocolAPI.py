@@ -13,6 +13,18 @@ from bitcash.network.meta import Unspent
 from bitcash.network.transaction import Transaction, TxPart
 from bitcash.cashaddress import Address
 
+import os
+
+mainnet_servers = [
+            os.getenv("FULCRUM_API_MAINNET"),
+            os.getenv("FULCRUM_API_MAINNET_2"),
+            os.getenv("FULCRUM_API_MAINNET_3"),
+        ]
+
+testnet_servers = [
+            os.getenv("FULCRUM_API_TESTNET"),
+            os.getenv("FULCRUM_API_TESTNET_2"),
+        ]
 
 context = ssl.create_default_context()
 FULCRUM_PROTOCOL = "1.5.0"
@@ -101,14 +113,8 @@ class FulcrumProtocolAPI(BaseAPI):
 
     # Default endpoints to use for this interface
     DEFAULT_ENDPOINTS = {
-        "mainnet": [
-            "bch.imaginary.cash:50002",
-            "electron.jochen-hoenicke.de:51002",
-        ],
-        "testnet": [
-            "testnet.imaginary.cash:50002",
-            "testnet.bitcoincash.network:60002",
-        ],
+        "mainnet": mainnet_servers,
+        "testnet": testnet_servers,
         "regtest": [],
     }
 
@@ -276,7 +282,12 @@ class FulcrumProtocolAPI(BaseAPI):
             else:
                 nft_commitment = bytes.fromhex(nft["commitment"])
                 nft_capability = nft["capability"]
-            token_amount = int(token_data.get("amount"))
+            # Handle coins without token data
+            try:
+                token_amount = int(token_data.get("amount"))
+            except:
+                token_amount = None
+                print("No token data")
             # add unspent
             unspents.append(
                 Unspent(
