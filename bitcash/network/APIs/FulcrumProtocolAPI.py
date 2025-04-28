@@ -2,6 +2,7 @@ from functools import wraps
 import json
 import socket
 import ssl
+import certifi
 from decimal import Decimal
 import typing
 from requests.exceptions import ConnectTimeout, ContentDecodingError, SSLError
@@ -26,7 +27,7 @@ testnet_servers = [
             os.getenv("FULCRUM_API_TESTNET_2"),
         ]
 
-context = ssl.create_default_context()
+context = ssl.create_default_context(cafile=certifi.where())
 FULCRUM_PROTOCOL = "1.5.0"
 
 BCH_TO_SAT_MULTIPLIER = 100000000
